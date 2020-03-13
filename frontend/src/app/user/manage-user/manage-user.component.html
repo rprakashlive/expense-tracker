@@ -1,0 +1,60 @@
+
+             <div class="card">
+                <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Manage users</h3>
+                <div class="card-body">
+                  <div id="table" class="table-editable">
+                    <span class="table-add float-right mb-3 mr-2">
+                      <a class="text-success" (click)="add()">
+                        <i class="fa fa-plus"></i>
+                      </a>
+                    </span> 
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                      <tr>
+                        <th class="text-center">First Name</th>
+                        <th class="text-center">Email</th>
+                        <th class="text-center">Password</th>
+                        <th class="text-center">Actions</th>
+                      </tr>
+                      <tr *ngFor="let user of userList; let i = index">
+                        <td>
+                          <input type="text" class="form-control" name="user_name" [(ngModel)]="user.first_name" >
+                        </td>
+                        <td>
+                            <input [disabled]="!user.is_create" type="text" class="form-control" name="user_email" [(ngModel)]="user.email" >
+                        </td>
+                        <td>
+                            <input type="password" class="form-control" name="user_password" [(ngModel)]="user.password" >
+                        </td>                      
+                        <td *ngIf="!user.is_create">
+                          <span class="table-up">
+                            <a class="indigo-text">
+                              <i class="fa fa-save" (click)="updateUser(i, user)" aria-hidden="true"></i>
+                            </a>
+                          </span>
+                          <span class="table-down">
+                            <a class="indigo-text">
+                              <i class="fa fa-times ml-3" (click)="openConfirmationDialog(i, user)" aria-hidden="true"></i>
+                            </a>
+                          </span>
+                        </td>
+                        <td *ngIf="user.is_create">
+                          <span class="table-up">
+                            <a class="indigo-text">
+                              <i class="fa fa-save" aria-hidden="true" (click)="saveUser(user, i)"></i>
+                            </a>
+                          </span>
+                          <span class="table-down">
+                            <a class="indigo-text">
+                              <i class="fa fa-times ml-3" (click)="userList.splice(i, 1)" aria-hidden="true"></i>
+                            </a>
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- Editable table -->
+      
+              
+          

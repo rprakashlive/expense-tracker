@@ -43,7 +43,7 @@
               <span>{{menu.title}}</span>
             </a>
 
-            <a *ngIf="menu.is_access && menu.type !== 'header' && roles.indexOf(menu.is_access) > -1" [routerLink]="[menu.path]" (click)='toggle(menu)'>
+            <a *ngIf="menu.is_access && menu.type !== 'header' &&  roles.length > 0 &&roles.indexOf(menu.is_access) > -1" [routerLink]="[menu.path]" (click)='toggle(menu)'>
               <i class="{{menu.icon}}"></i>
               <span>{{menu.title}}</span>
             </a>

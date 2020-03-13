@@ -34,3 +34,40 @@ module.exports.getUser = function(req, res) {
     });
 };
 
+module.exports.updateUser = function(req, res) {
+    var reqObj = {
+        id  : req.params.userId,
+        first_name : req.payload.first_name,
+        updated_at : req.payload.updated_at
+    }
+    return new Promise((resolve, reject) => {
+        userModel.put(reqObj, function (err, data){
+            if (err) {
+                err.status = 500;
+                reject (err);
+            }
+            resolve(data);
+        });
+    });
+};
+
+
+module.exports.removeUser = function(req, res) {
+    var reqObj = {
+        id  : req.params.userId,
+        is_active : 0
+    }
+    return new Promise((resolve, reject) => {
+        userModel.delete(reqObj, function (err, data){
+            if (err) {
+                err.status = 500;
+                reject (err);
+            }
+            resolve(data);
+        });
+    });
+};
+
+
+
+

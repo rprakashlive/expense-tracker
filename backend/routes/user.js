@@ -28,7 +28,7 @@ module.exports = [
         } 
     }},
 
-    { method: 'POST', path: '/users', config: {        
+    { method: 'POST', path: '/users/create', config: {        
         ext: {
              onPreAuth: { method: isAuthenticated.isAuth }
         }
@@ -39,5 +39,30 @@ module.exports = [
         } catch (error) {
             return h.response({message : error.message}).code(error.status);
         } 
+    }},
+    { method: 'PUT', path: '/users/update/{userId}', config: {        
+        ext: {
+            onPreAuth: { method: [isAuthenticated.isAuth, isAuthenticated.isPermission]}
+        }
+    },handler: async (request, h) => {
+        try {
+            var data = await userCtrl.updateUser(request, h)
+            return h.response(data).code(200);
+        } catch (error) {
+            return h.response({message : error.message}).code(error.status);
+        } 
+    }},
+    { method: 'PUT', path: '/users/delete/{userId}', config: {        
+        ext: {
+            onPreAuth: { method: [isAuthenticated.isAuth, isAuthenticated.isPermission]}
+        }
+    },handler: async (request, h) => {
+        try {
+            var data = await userCtrl.removeUser(request, h)
+            return h.response(data).code(200);
+        } catch (error) {
+            return h.response({message : error.message}).code(error.status);
+        } 
     }}
+
 ];

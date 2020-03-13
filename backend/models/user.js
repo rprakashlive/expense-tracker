@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 
 module.exports.get = (reqObj, callback) => {
-    sql.query("SELECT user.id, user.first_name, user.created_at, user.created_by, user.updated_at, user.updated_by  FROM  user  WHERE user.is_active IS NULL OR user.is_active = ?",[reqObj.is_active], function (err, result) {
+    sql.query("SELECT user.id, user.first_name, user.email, user.created_at, user.created_by, user.updated_at, user.updated_by  FROM  user  WHERE user.is_active IS NULL OR user.is_active = ?",[reqObj.is_active], function (err, result) {
         if(err) {
             return callback(err, null);
         }
@@ -15,7 +15,6 @@ module.exports.get = (reqObj, callback) => {
 }
 
 module.exports.getUserByUsername = (reqObj, callback) => {
-    console.log("req",reqObj);
     sql.query("SELECT * FROM user WHERE email = ? LIMIT 1",[reqObj.username], function (err, result) {
         if(err) {
             return callback(err, null);
@@ -45,6 +44,25 @@ module.exports.create = function(reqObj, callback){
             }
         });
     });
+}
+
+module.exports.put = function(reqObj, callback){
+    sql.query('UPDATE user SET first_name = ?, updated_at = ? WHERE id = ?', [reqObj.first_name, reqObj.updated_at, reqObj.id], (err, resData) => {
+        if (err) {
+            return callback(err, null);
+            }
+            return callback(null, resData);
+        });
+}
+
+
+module.exports.delete = function(reqObj, callback){
+    sql.query('UPDATE user SET is_active = ? WHERE id = ?', [reqObj.is_active, reqObj.id], (err, resData) => {
+        if (err) {
+            return callback(err, null);
+            }
+            return callback(null, resData);
+        });
 }
 
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
