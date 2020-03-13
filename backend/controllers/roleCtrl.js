@@ -36,7 +36,7 @@ module.exports.removeRole = function(req, res) {
                 err.status = 500;
                 reject (err);
             }
-            setTimeout(function(){ resolve(data); }, 5000);
+            resolve(data);
         });
     });
 };
