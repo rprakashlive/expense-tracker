@@ -1,0 +1,66 @@
+
+             <div class="card">
+              <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Map Departments</h3>
+              <div class="card-body">
+                <div id="table" class="table-editable">
+                  <span class="table-add float-right mb-3 mr-2">
+                    <a class="text-success" (click)="add()">
+                      <i class="fa fa-plus"></i>
+                    </a>
+                  </span> 
+                  <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <tr>
+                      <th class="text-center">Select Department</th>
+                      <th class="text-center">Select User</th>
+                      <th class="text-center">Created By</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                    <tr *ngFor="let userDept of userDeptList; let i = index">
+                      <td>
+                        <select class="form-control"  [(ngModel)]="userDept.dept_id">
+                          <option *ngFor="let item of deptList" [ngValue]="item.id">{{item.name}}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control"  [(ngModel)]="userDept.user_id">
+                          <option *ngFor="let item of userList" [ngValue]="item.id">{{item.first_name}}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <span contenteditable="false">{{userDept.first_name}}</span>
+                      </td>                      
+                      <td *ngIf="!userDept.is_create">
+                        <span class="table-up">
+                          <a class="indigo-text">
+                            <i class="fa fa-save" (click)="updateUserDept(i, userDept)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                        <span class="table-down">
+                          <a class="indigo-text">
+                            <i class="fa fa-times ml-3" (click)="openConfirmationDialog(i, userDept)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                      </td>
+                      <td *ngIf="userDept.is_create">
+                        <span class="table-up">
+                          <a class="indigo-text">
+                            <i class="fa fa-save" aria-hidden="true" (click)="saveUserDept(userDept, i)"></i>
+                          </a>
+                        </span>
+                        <span class="table-down">
+                          <a class="indigo-text">
+                            <i class="fa fa-times ml-3" (click)="userDeptList.splice(i, 1)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- Editable table -->
+    
+            
+        

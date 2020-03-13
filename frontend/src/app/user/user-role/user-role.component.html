@@ -1,0 +1,66 @@
+
+             <div class="card">
+              <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Map roles</h3>
+              <div class="card-body">
+                <div id="table" class="table-editable">
+                  <span class="table-add float-right mb-3 mr-2">
+                    <a class="text-success" (click)="add()">
+                      <i class="fa fa-plus"></i>
+                    </a>
+                  </span> 
+                  <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <tr>
+                      <th class="text-center">Select Role</th>
+                      <th class="text-center">Select User</th>
+                      <th class="text-center">Created By</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                    <tr *ngFor="let userRole of userRoleList; let i = index">
+                      <td>
+                        <select class="form-control"  [(ngModel)]="userRole.role_id">
+                          <option *ngFor="let item of roleList" [ngValue]="item.id">{{item.name}}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-control"  [(ngModel)]="userRole.user_id">
+                          <option *ngFor="let item of userList" [ngValue]="item.id">{{item.first_name}}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <span  contenteditable="false">{{userRole.first_name}}</span>
+                      </td>                      
+                      <td *ngIf="!userRole.is_create">
+                        <span class="table-up">
+                          <a class="indigo-text">
+                            <i class="fa fa-save" (click)="updateUserRole(i, userRole)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                        <span class="table-down">
+                          <a class="indigo-text">
+                            <i class="fa fa-times ml-3" (click)="openConfirmationDialog(i, userRole)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                      </td>
+                      <td *ngIf="userRole.is_create">
+                        <span class="table-up">
+                          <a class="indigo-text">
+                            <i class="fa fa-save" aria-hidden="true" (click)="saveUserRole(userRole, i)"></i>
+                          </a>
+                        </span>
+                        <span class="table-down">
+                          <a class="indigo-text">
+                            <i class="fa fa-times ml-3" (click)="userRoleList.splice(i, 1)" aria-hidden="true"></i>
+                          </a>
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- Editable table -->
+    
+            
+        

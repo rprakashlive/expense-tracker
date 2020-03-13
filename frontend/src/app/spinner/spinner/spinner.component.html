@@ -1,0 +1,13 @@
+
+<p *ngIf="isLoading | async">
+  {{activateSpinner(isLoading)}}
+<ngx-spinner
+bdOpacity = 0.6
+bdColor = "rgba(121,118,118,0.5)"
+size = "large"
+color = "#fff"
+type = "timer"
+[fullScreen] = "true"
+>
+</ngx-spinner>
+</p>
