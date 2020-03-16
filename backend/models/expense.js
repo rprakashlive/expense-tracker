@@ -1,7 +1,7 @@
 const sql = require("../config/db");
 
 module.exports.get = (reqObj, callback) => {
-    sql.query("SELECT expense.id, expense.category_id, expense.dept_id, expense.amount, expense.created_at, expense.created_by, expense.updated_at, expense.updated_by, expense.status, expense.approved_by, user.first_name FROM expense LEFT JOIN user ON user.id = expense.created_by WHERE expense.is_active IS NULL OR expense.is_active = ?",[reqObj.is_active], function (err, result) {
+    sql.query("SELECT expense.id, expense.category_id, expense.dept_id, expense.amount, expense.created_at, expense.created_by, expense.updated_at, expense.updated_by, expense.status, expense.approved_by, user.first_name FROM expense LEFT JOIN user ON user.id = expense.created_by WHERE expense.is_active IS NULL OR expense.is_active = ? AND expense.created_at BETWEEN  ? AND ?",[reqObj.is_active, reqObj.start, reqObj.end], function (err, result) {
         if(err) {
             return callback(err, null);
         }

@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
-import { BsDropdownModule } from 'ngx-bootstrap';
+import { BsDropdownModule, BsDatepickerModule  } from 'ngx-bootstrap';
 
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ToastrModule } from 'ng6-toastr-notifications';
@@ -107,7 +107,7 @@ import { ManageUserComponent } from './user/manage-user/manage-user.component';
     NgxSpinnerModule,
     NgbModule,
     BsDropdownModule.forRoot(),
-
+    BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
     ToastrModule.forRoot()
   ],
