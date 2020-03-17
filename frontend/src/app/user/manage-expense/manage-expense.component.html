@@ -1,5 +1,13 @@
 
+
 <div class="card">
+  <div class="card-body scroll ">
+    <div *ngFor="let expenseAction of expenseActions">
+      <small style="color: green;" *ngIf="expenseAction.method === 'CREATE'">[{{expenseAction.datetime}}] {{expenseAction.pushMsg}}</small>
+      <small style="color: royalblue;" *ngIf="expenseAction.method === 'UPDATE'">[{{expenseAction.datetime}}] {{expenseAction.pushMsg}}</small>
+      <small style="color: red;" *ngIf="expenseAction.method === 'DELETE'">[ {{expenseAction.datetime}} ] {{expenseAction.pushMsg}}</small>
+    </div>
+  </div>  
 <h3 class="card-header text-center font-weight-bold text-uppercase py-4">MANAGE EXPENSES</h3>
 <div class="card-body">
 <div id="table" class="table-editable">
@@ -74,12 +82,12 @@
       <td *ngIf="!expense.is_create">
         <span class="table-up">
           <a class="indigo-text">
-            <i class="fa fa-save" (click)="updateExpense(i, expense)" aria-hidden="true"></i>
+            <i *ngIf="expense.status != 'APPROVED' || isAccountant" class="fa fa-save" (click)="updateExpense(i, expense)" aria-hidden="true"></i>
           </a>
         </span>
         <span class="table-down">
           <a class="indigo-text">
-            <i class="fa fa-times ml-3" (click)="openConfirmationDialog(i, expense)" aria-hidden="true"></i>
+            <i *ngIf="expense.status != 'APPROVED' || isAccountant" class="fa fa-times ml-3" (click)="openConfirmationDialog(i, expense)" aria-hidden="true"></i>
           </a>
         </span>
         <span *ngIf="isAccountant" class="table-down">

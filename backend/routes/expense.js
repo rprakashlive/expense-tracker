@@ -15,6 +15,18 @@ module.exports = [
             return h.response({message : error.message}).code(error.status);
         } 
     }},
+    { method: 'GET', path: '/expenses/status', config: {        
+        ext: {
+            onPreAuth: { method: [isAuthenticated.isAuth, isAuthenticated.isPermission]}
+        }
+    },handler: async (request, h) => {
+        try {
+            var data = await expenseCtrl.getExpenseStatus(request, h)
+            return h.response(data).code(200);
+        } catch (error) {
+            return h.response({message : error.message}).code(error.status);
+        } 
+    }},
     { method: 'POST', path: '/expenses/create', config: {        
         ext: {
             onPreAuth: { method: [isAuthenticated.isAuth, isAuthenticated.isPermission]}

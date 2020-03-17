@@ -6,3 +6,8 @@
         padding: 1rem 1rem;
    }
 }
+
+.scroll {
+    max-height: 50px;
+    overflow-y: auto;
+}

@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 import {catchError} from "rxjs/internal/operators";
 import { SpinnerService } from "../../spinner/spinner.service"
 import { finalize } from "rxjs/operators";
-
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -28,8 +28,11 @@ export class TokenInterceptor implements HttpInterceptor {
    * @returns {Observable<A>}
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log("init")
-    this.spinnerService.showLoader();
+    
+    if (request.url != environment.apiUrl + '/expenses/status') {
+      this.spinnerService.showLoader();
+    }
+    
     if (localStorage.getItem('id_token')) {
       request = request.clone({
         setHeaders: {

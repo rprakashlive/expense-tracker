@@ -9,6 +9,11 @@ import { ExpenseService } from '../services/expense.service';
 import { CategoryService } from '../services/category.service';
 import { DatepickerDateCustomClasses } from 'ngx-bootstrap/datepicker';
 import { format } from 'url';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { Observable, of, throwError, interval  } from 'rxjs';
+import 'rxjs/add/operator/switchMap';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -18,8 +23,8 @@ import { format } from 'url';
 })
 export class ManageExpenseComponent implements OnInit {
   dateCustomClasses: DatepickerDateCustomClasses[];
-
-  
+  expenseActions:any; 
+  pollingData: any;     
   user:any = '';
   dateRange:any;
   deptQueryId: any = '';
@@ -28,14 +33,34 @@ export class ManageExpenseComponent implements OnInit {
      private expenseService: ExpenseService,
      private categoryService: CategoryService,
      private authService: AuthService, 
-     private cdref: ChangeDetectorRef) { }
-     
+     private cdref: ChangeDetectorRef,
+     private http: HttpClient) {
+    }
+     prevPollId:any;
      expenseList: Array<any> = [];
      categoryList: Array<any> = [];
      deptList: Array<any> = [];
      userRoles: any = [];
      isAccountant: any = false;
   ngOnInit() {    
+    this.expenseActions = [];
+    this.pollingData = interval(5000).switchMap(() => this.http.get(environment.apiUrl + '/expenses/status')).subscribe((result: any[]) => {
+      
+      if (result.length > 0) {
+        result[0].datetime = moment(result[0].datetime).format('YYYY-MM-DD HH:MM:SS')
+        if (this.expenseActions.length === 0) { 
+          this.prevPollId = result[0]['id'];
+          this.expenseActions.push(result[0]);
+        } else {
+          if (result[0]['id'] != this.prevPollId) {
+            this.prevPollId = result[0]['id'];
+            this.expenseActions.push(result[0]);
+          }
+        }
+      }
+    });
+
+
     var date = new Date();
     date.setDate(date.getDate() - 30);
     this.dateRange = [new Date, date]
@@ -58,6 +83,10 @@ export class ManageExpenseComponent implements OnInit {
       }
     });
   }
+
+   ngOnDestroy() {
+    this.pollingData.unsubscribe();
+   }
 
   getExpenses() {
     var start =  moment(this.dateRange[1]).format('YYYY-MM-DD HH:MM:00');

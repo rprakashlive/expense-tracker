@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { Observable, of, throwError, interval  } from 'rxjs';
+import 'rxjs/add/operator/switchMap';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
+import { ToastrManager } from 'ng6-toastr-notifications';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -9,7 +11,19 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   public dataResults;
-  constructor(private http: HttpClient) { }
+  // pollingData: any;      
+
+  constructor(public toastr: ToastrManager, private http: HttpClient) {
+    // this.pollingData = interval(5000).switchMap(() => http.get(environment.apiUrl + '/expenses/status')).subscribe((result: any[]) => {
+    //   console.log('result',result);
+    //   if (result.length > 0) {
+    //     this.toastr.successToastr(result[0].pushMsg + '  !', 'Success');
+    //   }
+    // });
+   }
+  //  ngOnDestroy() {
+  //   this.pollingData.unsubscribe();
+  //  }
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -35,7 +49,6 @@ export class UserService {
 
   getUsers (data): Observable<any> {
     const query_params = new HttpParams({fromObject: data});
-    console.log('query_params',query_params);
     return this.http.get(environment.apiUrl + '/users', { params : query_params })
   }
   

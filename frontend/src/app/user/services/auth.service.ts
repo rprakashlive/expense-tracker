@@ -129,6 +129,7 @@ export class AuthService {
     localStorage.clear();
     this.setLoggedIn(false);
     this.router.navigate(['/user/login']);
+    window.location.reload(); // interval stop purpose
   }
 
 
