@@ -1,4 +1,5 @@
 var expenseModel = require('../models/expense');
+var moment = require('moment');
 
 var expenseStatus = {
     lastAction : {
@@ -38,13 +39,11 @@ function updateAction (method, processed_by) {
     expenseStatus.lastAction['id'] = new Date().getUTCMilliseconds();
     expenseStatus.lastAction['method'] = method;
     expenseStatus.lastAction['processed_by'] = processed_by;
-    expenseStatus.lastAction['datetime'] = new Date();
-    
+    expenseStatus.lastAction['datetime'] = moment().format('MMMM Do YYYY, h:mm:ss a'); // March 18th 2020, 2:38:56 pm    
 }
 
 module.exports.getExpenseStatus = function(req, res) {
     var tempStatus = [];
-    console.log("expenseStatus.lastAction['method']",expenseStatus.lastAction['method']);
     if (expenseStatus.lastAction['method'] && expenseStatus.lastAction['processed_by']) {
         tempStatus.push({
             id : expenseStatus.lastAction['id'],
@@ -59,7 +58,7 @@ module.exports.getExpenseStatus = function(req, res) {
 module.exports.removeExpense = function(req, res) {
     var reqObj = {
         id  : req.params.expenseId,
-        is_active : req.payload.is_active
+        is_active : 0
     }
     return new Promise((resolve, reject) => {
         expenseModel.delete(reqObj, function (err, data){
@@ -80,7 +79,7 @@ module.exports.updateExpense = function(req, res) {
         category_id : req.payload.category_id,
         dept_id : req.payload.dept_id,
         amount : req.payload.amount,
-        updated_at : req.payload.updated_at
+        updated_at : moment().format('YYYY-MM-DD HH:MM:00')
     }
     return new Promise((resolve, reject) => {
         expenseModel.put(reqObj, function (err, data){

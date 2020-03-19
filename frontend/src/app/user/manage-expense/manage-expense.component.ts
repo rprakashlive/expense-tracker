@@ -47,7 +47,6 @@ export class ManageExpenseComponent implements OnInit {
     this.pollingData = interval(5000).switchMap(() => this.http.get(environment.apiUrl + '/expenses/status')).subscribe((result: any[]) => {
       
       if (result.length > 0) {
-        result[0].datetime = moment(result[0].datetime).format('YYYY-MM-DD HH:MM:SS')
         if (this.expenseActions.length === 0) { 
           this.prevPollId = result[0]['id'];
           this.expenseActions.push(result[0]);

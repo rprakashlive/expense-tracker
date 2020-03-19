@@ -1,4 +1,5 @@
 var userRoleModel = require('../models/user_role');
+var moment = require('moment');
 
 module.exports.getUserRoles = function(req, res) {
     return new Promise((resolve, reject) => {
@@ -43,7 +44,7 @@ module.exports.createUserRole = function(req, res) {
 module.exports.removeUserRole = function(req, res) {
     var reqObj = {
         id  : req.params.userRoleId,
-        is_active : req.payload.is_active
+        is_active : 0
     }
     return new Promise((resolve, reject) => {
         userRoleModel.delete(reqObj, function (err, data){
@@ -51,7 +52,7 @@ module.exports.removeUserRole = function(req, res) {
                 err.status = 500;
                 reject (err);
             }
-            setTimeout(function(){ resolve(data); }, 5000);
+            resolve(data);
         });
     });
 };
@@ -62,7 +63,7 @@ module.exports.updateUserRole = function(req, res) {
         id  : req.params.userRoleId,
         role_id : req.payload.role_id,
         user_id : req.payload.user_id,
-        updated_at : req.payload.updated_at
+        updated_at : moment().format('YYYY-MM-DD HH:MM:00')
     }
     return new Promise((resolve, reject) => {
         userRoleModel.put(reqObj, function (err, data){

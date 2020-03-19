@@ -44,7 +44,7 @@ export class CategoryComponent implements OnInit {
     console.log(roleObj);
     this.categoryService.createCategory(roleObj).subscribe(data => {
       if (data) {
-        this.toastr.successToastr(data.affectedRows + ' Category Created Successfully !', 'Success');
+        this.toastr.successToastr(' Category Created Successfully !', 'Success');
         this.getCategories();
       } else {
         this.getCategories();
@@ -53,6 +53,9 @@ export class CategoryComponent implements OnInit {
   }
 
   updateCategory(i, category) {
+    if (!category.id || !category.name) {
+      return this.toastr.errorToastr(' Validation Error !', 'Error');
+    }
     const updateObj = {
       id : category.id,
       name : category.name,
@@ -61,7 +64,7 @@ export class CategoryComponent implements OnInit {
     this.categoryService.updateCategory(updateObj).subscribe(data => {
       if (data) {
         this.categoryList[i] = category;
-        this.toastr.successToastr(data.affectedRows + ' Category Updated Successfully !', 'Success');
+        this.toastr.successToastr(' Category Updated Successfully !', 'Success');
       } else {
         
       }
@@ -85,7 +88,7 @@ export class CategoryComponent implements OnInit {
     this.categoryService.deleteCategory(updateObj).subscribe(data => {
       if (data) {
         this.categoryList.splice(i,1);
-        this.toastr.successToastr(data.affectedRows + ' Category Deleted Successfully !', 'Success');
+        this.toastr.successToastr(' Category Deleted Successfully !', 'Success');
       } else {
         
       }

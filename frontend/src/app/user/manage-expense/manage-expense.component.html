@@ -2,9 +2,10 @@
 
 <div class="card">
   <div class="card-body scroll ">
+    <small style="color: red;" *ngIf="expenseActions.length === 0"><i class="fa fa-spinner fa-spin"></i>  Fetching</small>
     <div *ngFor="let expenseAction of expenseActions">
-      <small style="color: green;" *ngIf="expenseAction.method === 'CREATE'">[{{expenseAction.datetime}}] {{expenseAction.pushMsg}}</small>
-      <small style="color: royalblue;" *ngIf="expenseAction.method === 'UPDATE'">[{{expenseAction.datetime}}] {{expenseAction.pushMsg}}</small>
+      <small style="color: green;" *ngIf="expenseAction.method === 'CREATE'">[ {{expenseAction.datetime}} ] {{expenseAction.pushMsg}}</small>
+      <small style="color: royalblue;" *ngIf="expenseAction.method === 'UPDATE'">[ {{expenseAction.datetime}} ] {{expenseAction.pushMsg}}</small>
       <small style="color: red;" *ngIf="expenseAction.method === 'DELETE'">[ {{expenseAction.datetime}} ] {{expenseAction.pushMsg}}</small>
     </div>
   </div>  
@@ -23,7 +24,7 @@
              bsDaterangepicker>
     </div>
       
-    <div class="form-group mb-3 ml-2">
+<div class="form-group mb-3 ml-2">
   <select class="form-control"   [(ngModel)]="deptQueryId">
     <option *ngFor="let item of deptList" [ngValue]="item.id">{{item.name}}
     </option>

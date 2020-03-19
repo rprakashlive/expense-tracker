@@ -1,4 +1,5 @@
 var departmentModel = require('../models/department');
+var moment = require('moment');
 
 module.exports.getDepartment = function(req, res) {
     return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ module.exports.createDepartment = function(req, res) {
 module.exports.removeDepartment = function(req, res) {
     var reqObj = {
         id  : req.params.departmentId,
-        is_active : req.payload.is_active
+        is_active : 0
     }
     return new Promise((resolve, reject) => {
         departmentModel.delete(reqObj, function (err, data){
@@ -36,7 +37,7 @@ module.exports.removeDepartment = function(req, res) {
                 err.status = 500;
                 reject (err);
             }
-            setTimeout(function(){ resolve(data); }, 5000);
+            resolve(data);
         });
     });
 };
@@ -46,7 +47,7 @@ module.exports.updateDepartment = function(req, res) {
     var reqObj = {
         id  : req.params.departmentId,
         name : req.payload.name,
-        updated_at : req.payload.updated_at
+        updated_at : moment().format('YYYY-MM-DD HH:MM:00')
     }
     return new Promise((resolve, reject) => {
         departmentModel.put(reqObj, function (err, data){

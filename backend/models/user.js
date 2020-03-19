@@ -1,6 +1,42 @@
 const sql = require("../config/db");
 const bcrypt = require('bcryptjs');
+const db = require("../config/dbConnect");
 
+const UserModel = db.sequelize.define("user", {
+    id: {
+      type: db.Sequelize.INTEGER, primaryKey: true
+    },
+    first_name: {
+      type: db.Sequelize.STRING
+    },
+    email: {
+        type: db.Sequelize.STRING,  primaryKey: true
+    },
+    password_hash:{
+        type: db.Sequelize.STRING    
+    },
+    created_by: {
+        type: db.Sequelize.INTEGER
+    },
+    created_at: {
+        type: db.Sequelize.DATE
+    },
+    updated_at: {
+        type: db.Sequelize.DATE
+    },
+    updated_by: {
+        type: db.Sequelize.INTEGER
+    },
+    is_active: {
+        type: db.Sequelize.TINYINT(1)
+    },
+
+  },{
+    tableName: 'user',
+    timestamps: false
+  });
+
+module.exports.UserModel = UserModel;
 
 module.exports.get = (reqObj, callback) => {
     sql.query("SELECT user.id, user.first_name, user.email, user.created_at, user.created_by, user.updated_at, user.updated_by  FROM  user  WHERE user.is_active IS NULL OR user.is_active = ?",[reqObj.is_active], function (err, result) {
