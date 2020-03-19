@@ -50,6 +50,7 @@
       <th class="text-center">Department</th>
       <th class="text-center">Amount</th>
       <th class="text-center">Created At</th>
+      <th class="text-center">Created By</th>
       <th class="text-center">STATUS</th>
       <th class="text-center">Actions</th>
     </tr>
@@ -71,6 +72,9 @@
       </td>
       <td>
         <span contenteditable="false">{{expense.created_at | date}}</span>
+      </td>
+      <td>
+        <span contenteditable="false">{{expense.first_name }}</span>
       </td>                      
       <td>
         <span *ngIf="!isAccountant" contenteditable="false">{{expense.status}}</span>

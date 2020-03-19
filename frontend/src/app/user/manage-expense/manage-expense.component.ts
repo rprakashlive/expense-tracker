@@ -28,6 +28,7 @@ export class ManageExpenseComponent implements OnInit {
   user:any = '';
   dateRange:any;
   deptQueryId: any = '';
+  is_access:Number = 0;
   constructor(public toastr: ToastrManager, private departmentService: DepartmentService, private userService : UserService,
      private confirmationDialogService: ConfirmationDialogService,
      private expenseService: ExpenseService,
@@ -42,9 +43,10 @@ export class ManageExpenseComponent implements OnInit {
      deptList: Array<any> = [];
      userRoles: any = [];
      isAccountant: any = false;
+     isAdmin: any = false;
   ngOnInit() {    
     this.expenseActions = [];
-    this.pollingData = interval(5000).switchMap(() => this.http.get(environment.apiUrl + '/expenses/status')).subscribe((result: any[]) => {
+    this.pollingData = interval(1000).switchMap(() => this.http.get(environment.apiUrl + '/expenses/status')).subscribe((result: any[]) => {
       
       if (result.length > 0) {
         if (this.expenseActions.length === 0) { 
@@ -72,6 +74,10 @@ export class ManageExpenseComponent implements OnInit {
     if (this.userRoles.indexOf('ACCOUNTANT') > -1) {
       this.isAccountant = true;
     }
+    if (this.userRoles.indexOf('ADMIN') > -1) {
+      this.isAdmin = true;
+    }
+    
     
     this.getExpenses();
     this.getDepts();
@@ -96,7 +102,11 @@ export class ManageExpenseComponent implements OnInit {
       end =  moment(this.dateRange[1]).format('YYYY-MM-DD HH:MM:00');
     }
     
-    this.expenseService.getExpenses({"is_active":1, start: start, end: end}).subscribe(data => {
+    if (this.isAccountant || this.isAdmin) {
+      this.is_access = 1;
+    }
+    
+    this.expenseService.getExpenses({"is_active":1, start: start, end: end, is_access : this.is_access}).subscribe(data => {
       if (data) {
         this.expenseList = data;
       } else {
@@ -215,7 +225,7 @@ export class ManageExpenseComponent implements OnInit {
   }
 
   add() {
-    this.expenseList.push({category_id:'', dept_id:'', amount:'', status:'PENDING', created_at:moment().format('YYYY-MM-DD'), is_create: true});
+    this.expenseList.push({category_id:'', dept_id:'', amount:'', status:'PENDING', created_at:moment().format('YYYY-MM-DD'), first_name:this.user.first_name , is_create: true});
   }
 
 

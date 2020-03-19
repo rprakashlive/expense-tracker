@@ -12,6 +12,11 @@ var expenseStatus = {
 
 module.exports.getExpenses = function(req, res) {
     return new Promise((resolve, reject) => {
+        if (parseInt(req.query.is_access) === 0) {
+            req.query.created_by = req.user.id;
+        } else {
+            delete req.query.is_access;
+        }
         expenseModel.get(req.query, function (err, data){
             if (err) {
                 err.status = 500;
