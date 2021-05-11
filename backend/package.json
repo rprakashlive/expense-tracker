@@ -14,7 +14,7 @@
     "bcryptjs": "^2.4.3",
     "hapi": "^18.1.0",
     "jsonwebtoken": "7.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
