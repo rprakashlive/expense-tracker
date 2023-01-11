@@ -13,7 +13,7 @@
     "async": "^3.1.0",
     "bcryptjs": "^2.4.3",
     "hapi": "^18.1.0",
-    "jsonwebtoken": "7.4.0",
+    "jsonwebtoken": "7.4.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mysql": "^2.18.1",
